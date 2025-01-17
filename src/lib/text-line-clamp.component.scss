@@ -1,0 +1,27 @@
+section {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-size: inherit;
+  line-height: inherit;
+
+  span {
+    display: inline;
+    font-size: inherit;
+    word-break: keep-all;
+    line-height: inherit;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+
+    &.button+span {
+      display: inline;
+    }
+
+    &:last-child {
+      color: #999;
+      cursor: pointer;
+      display: none;
+    }
+  }
+}

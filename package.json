@@ -1,0 +1,36 @@
+{
+  "name": "text-line-clamp",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/common": ">15.0.0",
+    "@angular/core": ">15.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "bugs": {
+    "email": "hongdaesik88@gmail.com"
+  },
+  "author": {
+    "name": "HONG DAESIK",
+    "email": "hongdaesik88@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "typescript",
+    "text-more",
+    "text more",
+    "text-clamp",
+    "text clamp",
+    "text-line-clamp",
+    "text line clamp",
+    "text-ellipsis",
+    "text ellipsis",
+    "line-clamp",
+    "line clamp"
+  ],
+  "homepage": "https://bettep.org",
+  "description": "An Angular library that renders a Show More button on text."
+}
