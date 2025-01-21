@@ -65,6 +65,7 @@ export class AppComponent {
 ## Change Log
 
 `1.0.0` : Initial release.
+`1.0.1` : Changed from word wrapping to character wrapping.
 
 <br><br>
 

@@ -9,10 +9,10 @@ section {
   span {
     display: inline;
     font-size: inherit;
-    word-break: keep-all;
+    word-break: break-all;
     line-height: inherit;
     white-space: pre-line;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
 
     &.button+span {
       display: inline;

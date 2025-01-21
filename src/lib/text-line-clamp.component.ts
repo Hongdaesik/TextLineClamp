@@ -57,64 +57,24 @@ export class TextLineClampComponent extends TextLineClampDirective implements On
 
     this.truncate = ''
 
-    /* See more Logic for removing text by word based on number of lines. */
-    var char = this.text?.split( /(\s|\n)/g ) || []
+    /* Separate line break characters. */
+    var char = this.text?.split( /\n/g ) || []
 
     let rect: any = this.el.nativeElement.getBoundingClientRect()
 
     let button = this.context.measureText( this.buttonName )
 
-    let actual = rect.width
+    while ( char.length ) {
 
-    var width: number = actual
+      /* Tree-shaped string slicing */
+      this.setSlice( [ char.shift() ! ], rect.width, rect, button )
 
-    while ( this.line < this.clamp && char.length ) {
+      if ( ++this.line < this.clamp ) {
 
-      let word = char.shift()
+        /* Merge line break characters. */
+        if ( char.length ) this.char.push( '\n' )
 
-      if ( !word ) continue
-
-      if ( word.indexOf( '\n' ) > -1 ) {
-
-        this.line++
-
-        width = actual
-
-      } else {
-
-        let metrics = this.context.measureText( word )
-
-        let box: number = metrics.width
-
-        let line = box / actual
-
-        if ( line > 1 ) {
-
-          this.line = this.line + Math.floor( line )
-
-          width = actual - ( box % actual )
-
-        } else {
-
-          let remain = width - box
-
-          /* If it is the last line, add more text and calculate */
-          if ( remain - ( this.line < this.clamp - 1 ? 0 : button.width ) < 0 ) {
-
-            this.line++
-
-            width = actual - box
-
-          } else {
-
-            width = remain
-          }
-        }
-      }
-
-      if ( this.line > this.clamp - 1 ) break
-
-      this.char.push( word! )
+      } else break
     }
 
     this.truncate = this.char.join( '' )
@@ -138,6 +98,49 @@ export class TextLineClampComponent extends TextLineClampDirective implements On
     this.cdr.detectChanges()
 
     setTimeout( () => this.ngOnLoad() )
+  }
+
+  /* Set */
+  setSlice( split: Array < string > , actual: number, rect: any, button: any ): number {
+
+    while ( split.length ) {
+
+      let text = split.shift()
+
+      if ( !text ) continue
+
+      let half = Math.floor( text.length / 2 )
+
+      let measure = this.context.measureText( text )
+
+      /* If it is the last line, add more text and calculate */
+      if ( actual < measure.width + ( this.line < this.clamp - 1 ? 0 : button.width ) ) {
+
+        if ( text.length > 1 ) actual = this.setSlice( [ text.substring( 0, half ), text.substring( half, text.length ) ], actual, rect, button )
+
+        else {
+
+          if ( ++this.line < this.clamp ) {
+
+            actual = rect.width - measure.width
+
+            this.char.push( text )
+
+            continue
+          }
+
+          break
+        }
+
+        continue
+      }
+
+      actual = actual - measure.width
+
+      this.char.push( text )
+    }
+
+    return actual
   }
 
   /* Get */
